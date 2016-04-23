@@ -3,3 +3,6 @@ file_roots:
   base:
     - /srv/salt
     - /srv/formulas/vsftpd-formula
+    - /srv/formulas/fail2ban-formula
+    - /srv/formulas/docker-formula
+hash_type: sha256
