@@ -3,3 +3,4 @@ file_roots:
   base:
     - /srv/salt
     - /srv/formulas/vsftpd-formula
+auth_tries: 10080
