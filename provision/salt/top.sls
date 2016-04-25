@@ -7,3 +7,5 @@ base:
 
   'debian-jessie.vagrantup.com':
     - docker
+    - docker-compose-fix
+    - docker.compose-ng

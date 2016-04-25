@@ -3,19 +3,16 @@
 # if you want to your own docker registry, use this
 # docker-containers:
 #   lookup:
-#     registry:
-#       image: "registry:2"
+#     site-vedetas_org:
+#       image: 'richarvey/nginx-php-fpm:latest'
 #       cmd:
 #       runoptions:
-#         - "-e REGISTRY_LOG_LEVEL=warn"
-#         - "-e REGISTRY_STORAGE=s3"
-#         - "-e REGISTRY_STORAGE_S3_REGION=us-west-1"
-#         - "-e REGISTRY_STORAGE_S3_BUCKET=my-bucket"
-#         - "-e REGISTRY_STORAGE_S3_ROOTDIRECTORY=my-folder/my-subfolder/my-sub-subfolder"
-#         - "--log-driver=syslog"
-#         - "-p 5000:5000"
-#         - "--rm"
-
+#         - "--env=VIRTUAL_HOST=vedetas.org"
+#         - "--volume=/srv/docker/nginx/www/vedetas.org/htdocs:/usr/share/nginx/html"
+#         - "--restart=always"
+#         - "--detach=true"
+#         - "-p 80:80"
+# 
 docker-pkg:
   lookup:
       # pip:
@@ -52,31 +49,19 @@ docker-pkg:
 #      aws_secret: 'AbcD+efG-HIjK1+++23456+789'
 
 # Docker compose supported attributes
-# docker:
-#   compose:
-#     registry-data:
-#       dvc: True
-#       image: &registry_image 'library/registry:0.9.1'
-#       container_name: &dvc 'registry-999-99-data'
-#       command: echo *dvc data volume container
-#       volumes:
-#         - &datapath '/registry'
-#     registry-service:
-#       image: *registry_image
-#       container_name: 'registry-999-99-service'
-#       restart: 'always'
-#       volumes_from:
-#         - *dvc
-#       environment:
-#         SETTINGS_FLAVOR: 'local'
-#         STORAGE_PATH: *datapath
-#         SEARCH_BACKEND: 'sqlalchemy'
-#     nginx:
-#       image: 'library/nginx:1.9.0'
-#       container_name: 'nginx-999-99'
-#       restart: 'always'
-#       links:
-#         - 'registry-999-99-service:registry'
-#       ports:
-#         - '80:80'
-#         - '443:443'
+docker:
+  compose:
+    site-vedetas_org:
+      container_name: 'site-vedetas_org'
+      image: 'richarvey/nginx-php-fpm:latest'
+      restart: 'always'
+      ports:
+        - '80:80'
+        - '443:443'
+      environment:
+        VIRTUAL_HOST: 'vedetas.org'
+      volumes:
+        - '/srv/docker/nginx/www/vedetas.org/htdocs:/usr/share/nginx/html'
+        - '/etc/letsencrypt:/etc/letsencrypt'
+        - '/srv/docker/nginx/certs:/etc/nginx/certs'
+        - '/srv/docker/nginx/sites-enabled:/etc/nginx/sites-enabled'
