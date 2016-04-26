@@ -26,5 +26,6 @@ exim:
   service.dead:
     - enable: False
 
-  pkg.purged
+  pkg.purged:
+    - name: exim
 {% endif %}
