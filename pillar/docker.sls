@@ -98,3 +98,18 @@ docker:
       volumes:
         - '/srv/docker/mysql/data:/var/lib/mysql'
 
+     ep_mysql:
+       container_name: 'ep_mysql'
+       image: 'mysql:latest'
+       restart: 'always'
+       environment: 
+         MYSQL_ROOT_PASSWORD: {{ secret.ep_mysql.mysql_root_password }}
+       volumes:
+         - '/srv/docker/etherpad/mysql/data:/var/lib/mysql'
+
+      etherpad:
+        container_name: 'etherpad'
+        image: 'tvelocity/etherpad-lite:latest'
+        restart: 'always'
+        ports:
+          - '8002:9001'
