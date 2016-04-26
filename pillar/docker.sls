@@ -126,10 +126,9 @@ docker:
 
     ethercalc:
       container_name: 'ethercalc'
-      image: 'audreyt/ethercalc'
+      image: 'audreyt/ethercalc:latest'
       restart: 'always'
       links:
         - 'ec_redis:ec_redis'
       ports:
         - '8001:8000'
-
