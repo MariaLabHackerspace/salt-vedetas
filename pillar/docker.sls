@@ -65,7 +65,7 @@ docker:
 
     mail:
       container_name: 'mailserver_mail_1'
-      image: 'tvial/docker-mailserver'
+      image: 'tvial/docker-mailserver:latest'
       restart: 'always'
       hostname: 'lmahin'
       domainname: 'vedetas.org'
