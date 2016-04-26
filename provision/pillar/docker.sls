@@ -1,54 +1,9 @@
-# vi: set ft=yaml:
-# example docker registry container
-# if you want to your own docker registry, use this
-# docker-containers:
-#   lookup:
-#     site-vedetas_org:
-#       image: 'richarvey/nginx-php-fpm:latest'
-#       cmd:
-#       runoptions:
-#         - "--env=VIRTUAL_HOST=vedetas.org"
-#         - "--volume=/srv/docker/nginx/www/vedetas.org/htdocs:/usr/share/nginx/html"
-#         - "--restart=always"
-#         - "--detach=true"
-#         - "-p 80:80"
-# 
+{% import_yaml "docker-secret.sls" as secret %}
+
 docker-pkg:
   lookup:
-      # pip:
-      # piversion: '== 8.1.1'
       version: '1.10.3-0~jessie'
-    # refresh_repo: false
-    # process_signature: /usr/bin/docker
-    # # pip version is needed to maintain backwards compatibility with the above docker version
-    # pip_version: '<= 1.2.3'
-    # config:
-    #   - DOCKER_OPTS="-s btrfs --dns 192.168.0.2"
-    #   - export http_proxy="http://192.168.0.4:3128/"
 
-# docker registry 2.x using the deprecated docker.registry - backwards compatibility
-#registry:
-#  lookup:
-#    version: 2
-#    restart: always
-#    runoptions:
-#      - "-e REGISTRY_LOG_LEVEL=warn"
-#      - "-e REGISTRY_STORAGE=s3"
-#      - "-e REGISTRY_STORAGE_S3_REGION=us-west-1"
-#      - "-e REGISTRY_STORAGE_S3_BUCKET=my-bucket"
-#      - "-e REGISTRY_STORAGE_S3_ROOTDIRECTORY=my-folder/my-subfolder/my-sub-subfolder"
-#      - "--log-driver=syslog"
-
-# docker registry < 1 using the deprecated, even older docker.registry - backwards compatibility
-#registry:
-#  lookup:
-#    restart: 'always'
-#    amazon:
-#      aws_bucket: 'my-registry'
-#      aws_key: 'ABCDEFGHIJK123456789'
-#      aws_secret: 'AbcD+efG-HIjK1+++23456+789'
-
-# Docker compose supported attributes
 docker:
   compose:
     site-vedetas_org:
@@ -65,3 +20,45 @@ docker:
         - '/etc/letsencrypt:/etc/letsencrypt'
         - '/srv/docker/nginx/certs:/etc/nginx/certs'
         - '/srv/docker/nginx/sites-enabled:/etc/nginx/sites-enabled'
+
+    postgresql:
+      container_name: 'postgresql'
+      image: 'sameersbn/postgresql:9.4-8'
+      restart: 'always'
+      environment:
+        DB_USER: {{ secret.docker_secret.psql_user }}
+        DB_PASS: {{ secret.docker_secret.psql_pass }}
+        DB_NAME: 'redmine_production'
+      volumes:
+        - '/srv/docker/redmine/postgresql:/var/lib/postgresql'
+
+    redmine:
+      container_name: 'redmine'
+      image: 'sameersbn/redmine:3.1.2-1'
+      restart: 'always'
+      links:
+        - 'postgresql:postgresql'
+      environment:
+        TZ: 'Brazil/East'
+        REDMINE_PORT: 80
+        SMTP_ENABLED: True
+        SMTP_DOMAIN: 'vedetas.org'
+        SMTP_HOST: 'lmahin.vedetas.org'
+        SMTP_PORT: 25
+        SMTP_USER: {{ secret.docker_secret.imap_user }}
+        SMTP_PASS: {{ secret.docker_secret.imap_pass }}
+        SMTP_STARTTLS: False
+        SMTP_AUTHENTICATION: ':login'
+        SMTP_OPENSSL_VERIFY_MODE: 'none'
+        IMAP_ENABLED: True
+        IMAP_USER: {{ secret.docker_secret.imap_user }}
+        IMAP_PASS: {{ secret.docker_secret.imap_pass }}
+        IMAP_HOST: lmahin.vedetas.org
+        IMAP_PORT: 143
+        IMAP_SSL: False
+        IMAP_INTERVAL: 30
+        VIRTUAL_HOST: 'afra.vedetas.org'
+      ports:
+        - "80"
+      volumes:
+        - '/srv/docker/redmine/redmine:/home/redmine/data'
