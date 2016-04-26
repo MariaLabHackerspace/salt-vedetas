@@ -83,3 +83,16 @@ docker:
         DMS_SSL: letsencrypt
         SASL_PASSWORD: {{ secret.docker_secret.sasl_password }}
         VIRTUAL_HOST: lmahin.vedetas.org
+
+    mysql:
+      container_name: 'dbmysql'
+      image: 'mysql'
+      restart: 'always'
+      environment:
+        MYSQL_HOSTNAME: '172.17.0.2'
+        MYSQL_ROOT_PASSWORD: {{ secret.docker_secret.mysql_root_password }}
+      ports: 
+        - '3355:3306'
+      volumes:
+        - '/srv/docker/mysql/data:/var/lib/mysql'
+
