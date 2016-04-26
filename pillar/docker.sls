@@ -10,6 +10,8 @@ docker:
       container_name: 'site-vedetas_org'
       image: 'richarvey/nginx-php-fpm:latest'
       restart: 'always'
+      links:
+        - 'mailserver_mail_1:mail'
       ports:
         - '80:80'
         - '443:443'
@@ -26,8 +28,8 @@ docker:
       image: 'sameersbn/postgresql:9.4-8'
       restart: 'always'
       environment:
-        DB_USER: {{ secret.docker_secret.psql_user }}
-        DB_PASS: {{ secret.docker_secret.psql_pass }}
+        DB_USER: {{ secret.postgresql.psql_user }}
+        DB_PASS: {{ secret.postgresql.psql_pass }}
         DB_NAME: 'redmine_production'
       volumes:
         - '/srv/docker/redmine/postgresql:/var/lib/postgresql'
@@ -45,14 +47,14 @@ docker:
         SMTP_DOMAIN: 'vedetas.org'
         SMTP_HOST: 'lmahin.vedetas.org'
         SMTP_PORT: 25
-        SMTP_USER: {{ secret.docker_secret.imap_user }}
-        SMTP_PASS: {{ secret.docker_secret.imap_pass }}
+        SMTP_USER: {{ secret.redmine.imap_user }}
+        SMTP_PASS: {{ secret.redmine.imap_pass }}
         SMTP_STARTTLS: False
         SMTP_AUTHENTICATION: ':login'
         SMTP_OPENSSL_VERIFY_MODE: 'none'
         IMAP_ENABLED: True
-        IMAP_USER: {{ secret.docker_secret.imap_user }}
-        IMAP_PASS: {{ secret.docker_secret.imap_pass }}
+        IMAP_USER: {{ secret.redmine.imap_user }}
+        IMAP_PASS: {{ secret.redmine.imap_pass }}
         IMAP_HOST: lmahin.vedetas.org
         IMAP_PORT: 143
         IMAP_SSL: False
@@ -81,16 +83,16 @@ docker:
         - '/srv/docker/mailserver/maildata:/var/mail'
       environment:
         DMS_SSL: letsencrypt
-        SASL_PASSWORD: {{ secret.docker_secret.sasl_password }}
+        SASL_PASSWORD: {{ secret.mail.sasl_password }}
         VIRTUAL_HOST: lmahin.vedetas.org
 
     mysql:
       container_name: 'dbmysql'
-      image: 'mysql'
+      image: 'mysql:latest'
       restart: 'always'
       environment:
         MYSQL_HOSTNAME: '172.17.0.2'
-        MYSQL_ROOT_PASSWORD: {{ secret.docker_secret.mysql_root_password }}
+        MYSQL_ROOT_PASSWORD: {{ secret.mysql.mysql_root_password }}
       ports: 
         - '3355:3306'
       volumes:
