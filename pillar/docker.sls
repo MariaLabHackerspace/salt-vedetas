@@ -37,7 +37,7 @@ docker:
       image: 'sameersbn/redmine:3.1.2-1'
       restart: 'always'
       links:
-        - 'postgresql:postgresql'
+        - 'redmine_postgresql_1:postgresql'
       environment:
         TZ: 'Brazil/East'
         REDMINE_PORT: 80

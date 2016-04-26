@@ -23,9 +23,10 @@ extra-packages:
 
 {% if grains['os'] == 'Debian' %}
 exim:
-  service.dead:
-    - enable: False
-
   pkg.purged:
-    - name: exim
+    - pkgs:
+      - exim4
+      - exim4-base
+      - exim4-config
+      - exim-daemon-light
 {% endif %}
