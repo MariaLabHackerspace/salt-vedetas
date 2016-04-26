@@ -22,7 +22,7 @@ docker:
         - '/srv/docker/nginx/sites-enabled:/etc/nginx/sites-enabled'
 
     postgresql:
-      container_name: 'postgresql'
+      container_name: 'redmine_postgresql_1'
       image: 'sameersbn/postgresql:9.4-8'
       restart: 'always'
       environment:
@@ -33,7 +33,7 @@ docker:
         - '/srv/docker/redmine/postgresql:/var/lib/postgresql'
 
     redmine:
-      container_name: 'redmine'
+      container_name: 'redmine_redmine_1'
       image: 'sameersbn/redmine:3.1.2-1'
       restart: 'always'
       links:
@@ -62,3 +62,24 @@ docker:
         - "80"
       volumes:
         - '/srv/docker/redmine/redmine:/home/redmine/data'
+
+    mail:
+      container_name: 'mailserver_mail_1'
+      image: 'tvial/docker-mailserver'
+      restart: 'always'
+      hostname: 'lmahin'
+      domainname: 'vedetas.org'
+      ports:
+        - "25:25"
+        - "143:143"
+        - "587:587"
+        - "993:993"
+      volumes:
+        - '/srv/docker/mailserver/spamassassin:/tmp/spamassassin/'
+        - '/srv/docker/mailserver/postfix:/tmp/postfix/'
+        - '/srv/docker/mailserver/certs:/etc/letsencrypt'
+        - '/srv/docker/mailserver/maildata:/var/mail'
+      environment:
+        DMS_SSL: letsencrypt
+        SASL_PASSWORD: {{ secret.docker_secret.sasl_password }}
+        VIRTUAL_HOST: lmahin.vedetas.org
