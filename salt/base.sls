@@ -20,3 +20,11 @@ extra-packages:
       - git
       - vim
       - htop
+
+{% if grains['os'] == 'Debian' %}
+exim:
+  service.dead:
+    - enable: False
+
+  pkg.purged
+{% endif %}
