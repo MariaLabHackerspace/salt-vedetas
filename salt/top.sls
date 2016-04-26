@@ -9,3 +9,4 @@ base:
     - docker
     - docker-compose-fix
     - docker.compose-ng
+    - git-auto-deploy

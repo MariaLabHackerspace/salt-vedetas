@@ -1,0 +1,13 @@
+file_client: local
+file_roots: 
+  base:
+    - /srv/provision/salt
+    - /srv/provision/formulas/vsftpd-formula
+    - /srv/provision/formulas/fail2ban-formula
+    - /srv/provision/formulas/docker-formula
+
+pillar_roots:
+  base:
+    - /srv/provision/pillar
+
+hash_type: sha256
