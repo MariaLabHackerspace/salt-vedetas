@@ -98,18 +98,38 @@ docker:
       volumes:
         - '/srv/docker/mysql/data:/var/lib/mysql'
 
-     ep_mysql:
-       container_name: 'ep_mysql'
-       image: 'mysql:latest'
-       restart: 'always'
-       environment: 
-         MYSQL_ROOT_PASSWORD: {{ secret.ep_mysql.mysql_root_password }}
-       volumes:
-         - '/srv/docker/etherpad/mysql/data:/var/lib/mysql'
+    ep_mysql:
+      container_name: 'ep_mysql'
+      image: 'mysql:latest'
+      restart: 'always'
+      environment: 
+        MYSQL_ROOT_PASSWORD: {{ secret.ep_mysql.mysql_root_password }}
+      volumes:
+        - '/srv/docker/etherpad/mysql/data:/var/lib/mysql'
 
-      etherpad:
-        container_name: 'etherpad'
-        image: 'tvelocity/etherpad-lite:latest'
-        restart: 'always'
-        ports:
-          - '8002:9001'
+    etherpad:
+      container_name: 'etherpad'
+      image: 'tvelocity/etherpad-lite:latest'
+      restart: 'always'
+      links:
+        - 'ep_mysql:ep_mysql'
+      ports:
+        - '8002:9001'
+
+    ec_redis:
+      container_name: 'ec_redis'
+      image: 'redis:latest'
+      restart: 'always'
+      command: 'redis-server --appendonly yes'
+      volumes:
+        - '/srv/docker/ethercalc/data:/data'
+
+    ethercalc:
+      container_name: 'ethercalc'
+      image: 'audreyt/ethercalc'
+      restart: 'always'
+      links:
+        - 'ec_redis:ec_redis'
+      ports:
+        - '8001:8000'
+
