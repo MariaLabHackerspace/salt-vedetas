@@ -5,3 +5,4 @@ base:
 
   'debian-jessie.vagrantup.com':
     - docker
+    - nginx
