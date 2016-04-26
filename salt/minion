@@ -5,6 +5,7 @@ file_roots:
     - /srv/provision/formulas/vsftpd-formula
     - /srv/provision/formulas/fail2ban-formula
     - /srv/provision/formulas/docker-formula
+    - /srv/provision/formulas/nginx-formula
 
 pillar_roots:
   base:
