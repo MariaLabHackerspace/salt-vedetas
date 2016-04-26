@@ -1,4 +1,4 @@
-{% import_yaml "docker-secret.sls" as secret %}
+{% import_yaml "docker/secret.sls" as secret %}
 
 docker:
   compose:

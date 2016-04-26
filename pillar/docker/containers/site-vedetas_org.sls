@@ -1,3 +1,5 @@
+{% import_yaml "docker/secret.sls" as secret %}
+
 docker:
   compose:
     site-vedetas_org:
