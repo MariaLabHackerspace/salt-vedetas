@@ -1,7 +1,15 @@
 #!/usr/bin/env python
+pillar_path = 'pillar/docker/containers'
 
 import argparse
-import yaml
+try:
+    import yaml
+except ImportError:
+    raise ImportError("""
+    Missing pyyaml.
+    For Debian/Ubuntu \'apt-get install python-yaml\'.
+    You could also in any system \'pip install pyyaml\'.
+                      """)
 
 
 class CreateDocker(object):
@@ -44,7 +52,8 @@ class CreateDocker(object):
         docker_dict['environment'] = dict()
         if self.get_args().environment is not None:
             for variable in self.get_args().environment:
-                docker_dict['environment'][variable.split('=')[0]] = variable.split('=')[1]
+                docker_dict['environment'][variable.split('=')[0]] = \
+                    variable.split('=')[1]
 
         return docker_dict
 
@@ -61,21 +70,36 @@ class CreateDocker(object):
             docker/secret.sls is were we store sensitive data.
         """
         header = '{% import_yaml "docker/secret.sls" as secret %}\n\n'
-        with open("{}.sls".format(
-                  self.get_args().container_name), 'w') as docker_file:
-            docker_file.write(header)
+        self.docker_file = "{}/{}.sls".format(
+            pillar_path, self.get_args().container_name)
+        with open(self.docker_file, 'w') as yaml_file:
+            yaml_file.write(header)
 
     def write_yaml(self):
         """
             Write command line arguments into yaml.
         """
         self.write_header()
-        with open("{}.sls".format(
-                  self.get_args().container_name), 'a') as docker_file:
-            docker_file.write(yaml.dump(
-                self.default_dict(),
-                default_flow_style=False, default_style='"'))
+        with open(self.docker_file, 'a') as yaml_file:
+            yaml_file.write(yaml.dump(self.default_dict(),
+                            default_flow_style=False, default_style='"'))
+
+    def print_yaml(self):
+        """
+            Print message and file content to stdout.
+        """
+        yaml_file = open(self.docker_file, 'r')
+        yaml_contents = yaml_file.read()
+        yaml_file.close()
+
+        CSI = "\x1B["
+        print ""
+        print CSI+"31;40m" + 'File ' + CSI+"32;40m" + self.docker_file\
+            + CSI+"31;40m" + ' has been written.\n' + CSI + "0m"
+        print yaml_contents
+
 
 if __name__ == "__main__":
     create_docker = CreateDocker()
     create_docker.write_yaml()
+    create_docker.print_yaml()
