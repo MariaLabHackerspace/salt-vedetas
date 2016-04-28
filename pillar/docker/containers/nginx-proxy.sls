@@ -4,7 +4,7 @@
   "compose":
     "nginx-proxy":
       "container_name": "nginx-proxy"
-      "image": "jwilder/nginx-proxy"
+      "image": "jwilder/nginx-proxy:latest"
       "ports":
       - "80:80"
       - "443:443"
