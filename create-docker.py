@@ -2,6 +2,8 @@
 pillar_path = 'pillar/docker/containers'
 
 import argparse
+import sys
+
 try:
     import yaml
 except ImportError:
@@ -10,6 +12,13 @@ except ImportError:
     For Debian/Ubuntu \'apt-get install python-yaml\'.
     You could also in any system \'pip install pyyaml\'.
                       """)
+
+
+class MyParser(argparse.ArgumentParser):
+    def error(self, message):
+        sys.stderr.write('error: {}\n'.format(message))
+        self.print_help()
+        sys.exit(2)
 
 
 class CreateDocker(object):
@@ -21,16 +30,16 @@ class CreateDocker(object):
         """
             Get command line arguments
         """
-        parser = argparse.ArgumentParser(
-            description='Create yaml docker for salt.')
-        parser.add_argument('-n', '--container_name', required=True)
-        parser.add_argument('-v', '--volumes', action='append')
-        parser.add_argument('-l', '--links', action='append',
+        parser = MyParser(
+            description='Create sls docker for salt.')
+        parser.add_argument('-n', '--container_name', required=True, metavar='', help='A custom name for your container.')
+        parser.add_argument('-v', '--volumes', action='append', metavar='', help='Repeat the \'-v\' for more than one.')
+        parser.add_argument('-l', '--links', action='append', metavar='',
                             help='Link container to existing one.')
-        parser.add_argument('-p', '--ports', action='append')
-        parser.add_argument('-e', '--environment', action='append')
-        parser.add_argument('image_name')
-        parser.add_argument('command', nargs='?')
+        parser.add_argument('-p', '--ports', action='append', metavar='', help='Repeat the \'-p\' for more than one.')
+        parser.add_argument('-e', '--environment', action='append', metavar='', help='repeat the \'-e\' for more than one.')
+        parser.add_argument('image_name', help='Needs to be in image:version format. Version could be \'latest\'')
+        parser.add_argument('command', nargs='?', help='Needs single quotes around spaced commands.')
 
         args = parser.parse_args()
         return args
