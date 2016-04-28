@@ -8,9 +8,6 @@ docker:
       restart: 'always'
       links:
         - 'mailserver_mail_1:mail'
-      ports:
-        - '80:80'
-        - '443:443'
       environment:
         VIRTUAL_HOST: 'vedetas.org'
       volumes:

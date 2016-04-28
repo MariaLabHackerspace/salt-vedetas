@@ -58,8 +58,8 @@ class CreateDocker(object):
         if self.get_args().ports is not None:
             docker_dict['ports'] = self.get_args().ports
 
-        docker_dict['environment'] = dict()
         if self.get_args().environment is not None:
+            docker_dict['environment'] = dict()
             for variable in self.get_args().environment:
                 docker_dict['environment'][variable.split('=')[0]] = \
                     variable.split('=')[1]
