@@ -10,4 +10,3 @@ base:
     - docker-compose-fix
     - docker.compose-ng
     - git-auto-deploy
-    - nginx.ng.vhosts_config
