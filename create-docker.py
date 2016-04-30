@@ -27,13 +27,22 @@ class CreateDocker(object):
     """
 
     def __init__(self, vargs):
+        # Remove empty items
         self.docker_dict = {k: v for k, v in vargs.items() if v is not None}
 
+        if ':' not in self.docker_dict['image_name']:
+            print 'ERROR: image must be in the \'image-name:version\' format.'
+            sys.exit(1)
+            return False
+        self.docker_dict['name'] = self.docker_dict.pop('image_name')
+
+        # Convert environment to python dict
         environment = dict()
         for variable in self.docker_dict['environment']:
             environment[variable.split('=')[0]] = variable.split('=')[1]
         self.docker_dict['environment'] = environment
 
+        # Add whole dict inside docker->compose
         self.full_dict = {'docker': {'compose': {
             self.docker_dict['container_name']:
             self.docker_dict}}}
@@ -46,31 +55,45 @@ class CreateDocker(object):
         self.docker_file = "{}/{}.sls".format(
             pillar_path, self.docker_dict['container_name'])
         with open(self.docker_file, 'w') as yaml_file:
-            yaml_file.write(header)
+            try:
+                yaml_file.write(header)
+            except:
+                return False
+        return True
 
     def write_yaml(self):
         """
             Write command line arguments into yaml.
         """
-        self.write_header()
-        with open(self.docker_file, 'a') as yaml_file:
-            yaml_file.write(yaml.dump(self.full_dict,
-                            default_flow_style=False, default_style='"'))
+        if self.write_header():
+            with open(self.docker_file, 'a') as yaml_file:
+                try:
+                    yaml_file.write(yaml.dump(self.full_dict,
+                                    default_flow_style=False,
+                                    default_style='"'))
+                except:
+                    return False
+            return True
 
     def print_yaml(self):
         """
             Print message and file content to stdout.
         """
-        yaml_file = open(self.docker_file, 'r')
-        yaml_contents = yaml_file.read()
-        yaml_file.close()
+        if self.write_yaml():
+            yaml_file = open(self.docker_file, 'r')
+            try:
+                yaml_contents = yaml_file.read()
+            except:
+                return False
+            yaml_file.close()
 
-        CSI = "\x1B["
-        print ""
-        print CSI+"31;40m" + 'File ' + CSI+"32;40m" + self.docker_file\
-            + CSI+"31;40m" + ' has been written.\n' + CSI + "0m"
-        print yaml_contents
-
+            # Set up ANSI colors output.
+            CSI = "\x1B["
+            print ""
+            print CSI+"31;40m" + 'File ' + CSI+"32;40m" + self.docker_file\
+                + CSI+"31;40m" + ' has been written.\n' + CSI + "0m"
+            print yaml_contents
+            return True
 
 if __name__ == "__main__":
     parser = MyParser(description='Create sls docker for salt.')
@@ -93,5 +116,4 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     create_docker = CreateDocker(vars(args))
-    create_docker.write_yaml()
     create_docker.print_yaml()
