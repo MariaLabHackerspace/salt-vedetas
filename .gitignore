@@ -1,2 +1,3 @@
 *~ 
-provision/pillar
+.vagrant
+secret.sls
