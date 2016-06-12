@@ -9,14 +9,12 @@ docker:
       links:
         - 'dbmysql:mysql'
       environment:
-        VIRTUAL_HOST: 'vedetas.org,www.vedetas.org'
-        VIRTUAL_PROTO: 'https' 
+        VIRTUAL_HOST: 'f3mhack.org,www.f3mhack.org,femhack.org,www.femhack.org'
+        VIRTUAL_PROTO: 'https'
         VIRTUAL_PORT: 443
-        CERT_NAME: 'vedetas.org'
+        CERT_NAME: 'f3mhack.org'
       volumes:
-        - '/srv/docker/nginx/www/vedetas.org/htdocs:/usr/share/nginx/html'
+        - '/srv/docker/nginx/www/f3mhack.org/htdocs:/usr/share/nginx/html'
         - '/etc/letsencrypt:/etc/letsencrypt'
         - '/srv/docker/nginx/certs:/etc/nginx/certs'
-        - '/srv/docker/nginx/sites-enabled:/etc/nginx/sites-enabled'
-
-
+        - '/srv/docker/nginx/sites-enabled_f3mhack.org:/etc/nginx/sites-enabled'

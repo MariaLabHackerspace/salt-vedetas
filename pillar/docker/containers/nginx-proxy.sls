@@ -10,6 +10,6 @@
       - "443:443"
       "restart": "always"
       "volumes":
-      - "/etc/letsencrypt:/etc/letsencrypt"
-      - "/srv/docker/nginx/vhost.d:/etc/nginx/vhost.d:ro"
       - "/var/run/docker.sock:/tmp/docker.sock:ro"
+      - "/etc/letsencrypt:/etc/letsencrypt"
+      - "/srv/docker/nginx/certs:/etc/nginx/certs"
