@@ -28,6 +28,4 @@ install:
 
 script:
   - sudo salt-call state.highstate --local --retcode-passthrough
-  - sudo salt-call state.highstate --local --retcode-passthrough > /tmp/second
-  - cat /tmp/second
-  - bash -c '! grep -q "^Not Run:" /tmp/second'
+  - if docker ps -a | grep 'Exit\|Restarting' | docker logs `awk '{print $NF; err = 1} END {exit err}'`; then false; else true; fi
