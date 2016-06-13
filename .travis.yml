@@ -11,6 +11,7 @@ install:
   # Copy these states
   - sudo mkdir -p /srv/provision
   - sudo cp -r salt pillar formulas /srv/provision
+  - sudo cp .travis/secret.sls /srv/provision/pillar/docker
   - sudo cp salt/minion /etc/salt/minion
   - sudo service salt-minion restart
 
