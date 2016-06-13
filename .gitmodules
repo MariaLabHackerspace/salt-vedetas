@@ -1,3 +1,9 @@
 [submodule "formulas/openssh-formula"]
 	path = formulas/openssh-formula
 	url = https://github.com/saltstack-formulas/openssh-formula.git
+[submodule "formulas/fail2ban-formula"]
+	path = formulas/fail2ban-formula
+	url = https://github.com/saltstack-formulas/fail2ban-formula.git
+[submodule "formulas/vsftpd-formula"]
+	path = formulas/vsftpd-formula
+	url = https://github.com/saltstack-formulas/vsftpd-formula.git
