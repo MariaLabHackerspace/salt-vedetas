@@ -14,4 +14,5 @@ urllib3:
   pip.installed:
     - name: urllib3 == 1.14
     - upgrade: True
+    - reload_modules: true
 {%- endif %}
