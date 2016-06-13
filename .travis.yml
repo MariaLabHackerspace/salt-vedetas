@@ -9,8 +9,8 @@ before_install:
 
 install:
   # Copy these states
-  - sudo mkdir -p /srv/{salt,formulas}
-  - sudo cp -r salt formulas /srv
+  - sudo mkdir -p /srv/provision/{salt,formulas}
+  - sudo cp -r salt formulas /srv/provision
   - sudo cp salt/minion /etc/salt/minion
   - sudo service salt-minion restart
 
