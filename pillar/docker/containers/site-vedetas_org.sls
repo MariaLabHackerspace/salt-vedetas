@@ -8,6 +8,7 @@ docker:
       restart: 'always'
       links:
         - 'dbmysql:mysql'
+        - 'mailserver_mail_1:mail'
       environment:
         VIRTUAL_HOST: 'vedetas.org,www.vedetas.org'
         VIRTUAL_PROTO: 'https' 

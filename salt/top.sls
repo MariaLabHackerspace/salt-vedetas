@@ -1,6 +1,8 @@
 base:
   '*':
     - base
+    - openssh.config
+    - openssh.banner
     - vsftpd.config
     - fail2ban.config
     - fail2ban-fix

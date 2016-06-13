@@ -29,11 +29,6 @@ class CreateDocker(object):
     def __init__(self, vargs):
         # Remove empty items
         self.docker_dict = {k: v for k, v in vargs.items() if v is not None}
-
-        if ':' not in self.docker_dict['image_name']:
-            print 'ERROR: image must be in the \'image-name:version\' format.'
-            sys.exit(1)
-            return False
         self.docker_dict['name'] = self.docker_dict.pop('image_name')
 
         # Convert environment to python dict
@@ -108,7 +103,7 @@ if __name__ == "__main__":
     parser.add_argument('-e', '--environment', action='append', metavar='',
                         help='repeat the \'-e\' for more than one.')
     parser.add_argument('image_name',
-                        help='Needs to be in image: version format.\
+                        help='Could be in image:version format.\
                         Version could be \'latest\'')
     parser.add_argument('command', nargs='?',
                         help='Needs single quotes around spaced commands.')

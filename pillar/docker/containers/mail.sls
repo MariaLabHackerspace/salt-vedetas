@@ -4,7 +4,7 @@ docker:
   compose:
     mail:
       container_name: 'mailserver_mail_1'
-      image: 'tvial/docker-mailserver:latest'
+      image: 'tvial/docker-mailserver'
       restart: 'always'
       hostname: 'lmahin'
       domainname: 'vedetas.org'

@@ -1,5 +1,6 @@
 base:
   '*':
+    - openssh
     - vsftpd
     - fail2ban
     - docker
