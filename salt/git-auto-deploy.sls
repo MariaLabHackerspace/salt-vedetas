@@ -10,5 +10,5 @@ olipo186:
   pkg.latest:
     - name: git-auto-deploy
     - require: 
-      - pip: python-lockfile
+      - pip: lockfile
     - refresh: True
