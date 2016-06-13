@@ -18,6 +18,7 @@ install:
   - sudo service salt-minion restart
   - sudo pip install -U urllib3==1.14
   - sudo salt-call state.highstate --local --retcode-passthrough || true
+  - sudo salt-call state.highstate --local --retcode-passthrough || true
 
   # Additional debug help
   - sudo cat /var/log/salt/*
