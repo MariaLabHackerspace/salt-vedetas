@@ -2,7 +2,9 @@ docker-pkg:
   lookup:
     pip:
       version: '== 8.1.1'
-    version: '1.10.3-0~jessie'
+{%- if salt['grains.get']('oscodename') == 'jessie' %}
+    version: '1.10.3-0~jessie' %}
+{%- endif %}
 
 docker:
   pip:
