@@ -28,4 +28,4 @@ install:
 
 script:
   - sudo salt-call state.highstate --local --retcode-passthrough
-  - if docker ps -a | grep 'Exit\|Restarting' | docker logs `awk '{print $NF; err = 1} END {exit err}'`; then false; else true; fi
+  - for container in `docker ps -a | grep 'Exit\|Restarting' | awk '{print $NF; err = 1} END {exit err}'`; do docker logs $container && echo $container; false; done
