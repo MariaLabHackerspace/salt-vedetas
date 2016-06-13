@@ -31,4 +31,3 @@ script:
   - sudo salt-call state.highstate --local --retcode-passthrough > /tmp/second
   - cat /tmp/second
   - bash -c '! grep -q "^Not Run:" /tmp/second'
-  - sudo docker ps
