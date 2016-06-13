@@ -2,7 +2,7 @@ sudo: required
 dist: trusty
 language: python
 python:
-- '2.7'
+  - '2.7'
 
 before_install:
   - git submodule update --init --recursive
@@ -16,6 +16,7 @@ install:
   - sudo cp .travis/travis_secret.sls /srv/provision/pillar/docker/secret.sls
   - sudo cp salt/minion /etc/salt/minion
   - sudo service salt-minion restart
+  - sudo salt-call state.highstate --local --retcode-passthrough || true
   - sudo salt-call state.highstate --local --retcode-passthrough || true
 
   # Additional debug help
