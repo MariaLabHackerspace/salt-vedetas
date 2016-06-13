@@ -1,0 +1,41 @@
+{
+  "name": "etherpad-lite",
+  "version": "1.0.0",
+  "description": "![alt text](http://i.imgur.com/zYrGkg3.gif \"Etherpad in action on PrimaryPad\")",
+  "main": "index.js",
+  "directories": {
+    "doc": "doc",
+    "test": "tests"
+  },
+  "dependencies": {
+    "ep_adminpads": "^0.0.11",
+    "ep_better_pdf_export": "^0.0.1",
+    "ep_bookmark": "^1.0.2",
+    "ep_comments_page": "^0.0.33",
+    "ep_delete_after_delay": "^0.0.5",
+    "ep_delete_empty_pads": "^0.0.4",
+    "ep_etherpad-lite": "^1.6.0",
+    "ep_headings": "^0.1.6",
+    "ep_headings2": "^0.0.9",
+    "ep_markdown": "^0.0.10",
+    "ep_mediawiki": "^0.0.7",
+    "ep_printer": "^0.0.2",
+    "ep_push2delete": "^0.1.6",
+    "ep_tasklist": "JohnMcLear/ep_tasklist",
+    "ep_xmlexport": "^2.1.5"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ether/etherpad-lite.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ether/etherpad-lite/issues"
+  },
+  "homepage": "https://github.com/ether/etherpad-lite#readme"
+}
