@@ -22,4 +22,7 @@ install:
   - sudo salt-call grains.items --local
 
 script:
-  - sudo salt-call state.show_highstate --local --retcode-passthrough
+  - sudo salt-call state.highstate --local --retcode-passthrough
+  - sudo salt-call state.highstate --local --retcode-passthrough > /tmp/second
+  - cat /tmp/second
+  - bash -c '! grep -q "^Not Run:" /tmp/second'
