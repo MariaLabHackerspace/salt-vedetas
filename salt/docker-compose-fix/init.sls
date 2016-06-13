@@ -25,6 +25,7 @@ urllib3:
 /srv/docker/etherpad/confpad/custom_commands.sh:
   file.managed:
     - makedirs: True
+    - mode: 0755
     - contents: |
         #!/bin/bash
 
