@@ -7,3 +7,6 @@
 [submodule "formulas/vsftpd-formula"]
 	path = formulas/vsftpd-formula
 	url = https://github.com/saltstack-formulas/vsftpd-formula.git
+[submodule "formulas/docker-formula"]
+	path = formulas/docker-formula
+	url = https://github.com/saltstack-formulas/docker-formula.git
