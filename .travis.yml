@@ -15,8 +15,9 @@ install:
   - sudo cp -r salt pillar formulas /srv/provision
   - sudo cp .travis/travis_secret.sls /srv/provision/pillar/docker/secret.sls
   - sudo cp salt/minion /etc/salt/minion
-  - sudo service salt-minion restart
   - sudo pip install -U urllib3==1.14
+  - sudo service salt-minion restart
+  # This ones may fail. So we make sure it returns true.
   - sudo salt-call state.highstate --local --retcode-passthrough || true
   - sudo salt-call state.highstate --local --retcode-passthrough || true
 
@@ -29,5 +30,6 @@ install:
 
 script:
   - sudo salt-call state.highstate --local --retcode-passthrough
+  # We check if any of the dockers is either halted or restarting, and for each of those we print 'docker logs'.
   - for container in `docker ps -a | grep 'Exit\|Restarting' | awk '{print $NF}'`; do docker logs $container && echo $container; false; done
-  - docker ps
+  - docker ps -a
