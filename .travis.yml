@@ -14,7 +14,6 @@ install:
   - sudo mkdir -p /srv/provision
   - sudo cp -r salt pillar formulas /srv/provision
   - sudo cp .travis/travis_secret.sls /srv/provision/pillar/docker/secret.sls
-  - sudo cp .travis/travis_pillar_top.sls /srv/provision/pillar/top.sls
   - sudo cp salt/minion /etc/salt/minion
   - sudo pip install -U urllib3==1.14
   - sudo service salt-minion restart
