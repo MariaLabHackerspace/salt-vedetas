@@ -2,3 +2,7 @@
 .vagrant
 Vagrantfile.local
 secret.sls
+fail2ban.sls
+nginx.sls
+openssh.sls
+vsftpd.sls
