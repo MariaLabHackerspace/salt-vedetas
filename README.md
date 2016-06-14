@@ -21,7 +21,7 @@ E pronto! Em poucos minutos você terá uma versão de testes da servidora na su
 
 As configurações/personalizações estão todas dentro do diretório pillar. As senhas podem ser configuradas em pillar/docker/secret.sls. JAMAIS inclua este arquivo no repositório público.
 
-Para criar um novo container temos um script para gerar um sls, tornando a tarefa mais fácil:
+Para criar um novo docker container temos um script para gerar um sls, tornando a tarefa mais fácil:
 
 Exemplo:
 

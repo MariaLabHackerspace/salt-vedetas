@@ -1,7 +1,7 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby 
 
-# Load custom custom configuration in Vagrantfile.local
+# Load custom configuration in Vagrantfile.local
 custom_vagrantfile = 'Vagrantfile.local'
 load custom_vagrantfile if File.exist?(custom_vagrantfile)
 
