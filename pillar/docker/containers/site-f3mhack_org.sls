@@ -2,8 +2,8 @@
 
 docker:
   compose:
-    site-vedetas_org:
-      container_name: 'site-vedetas_org'
+    site-f3mhack_org:
+      container_name: 'site-f3mhack_org'
       image: 'richarvey/nginx-php-fpm:latest'
       restart: 'always'
       links:
