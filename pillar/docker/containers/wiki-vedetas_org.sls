@@ -14,3 +14,6 @@
       - "/srv/docker/nginx/www/almerinda.vedetas.org/public:/usr/share/nginx/html"
       - "/etc/letsencrypt:/etc/letsencrypt"
       - "/srv/docker/nginx/certs:/etc/nginx/certs"
+      - "/srv/docker/nginx/nginx-startup:/tmp/nginx-startup"
+      "command": "/tmp/nginx-startup/start.sh"
+

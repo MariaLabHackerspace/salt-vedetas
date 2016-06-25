@@ -18,3 +18,6 @@ docker:
         - '/etc/letsencrypt:/etc/letsencrypt'
         - '/srv/docker/nginx/certs:/etc/nginx/certs'
         - '/srv/docker/nginx/sites-enabled_f3mhack.org:/etc/nginx/sites-enabled'
+        - '/srv/docker/nginx/nginx-startup:/tmp/nginx-startup'
+      command: '/tmp/nginx-startup/start.sh'
+

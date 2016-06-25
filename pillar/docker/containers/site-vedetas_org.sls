@@ -8,7 +8,6 @@ docker:
       restart: 'always'
       links:
         - 'dbmysql:mysql'
-        - 'mailserver_mail_1:mail'
       environment:
         VIRTUAL_HOST: 'vedetas.org,www.vedetas.org'
         VIRTUAL_PROTO: 'https' 
@@ -19,5 +18,6 @@ docker:
         - '/etc/letsencrypt:/etc/letsencrypt'
         - '/srv/docker/nginx/certs:/etc/nginx/certs'
         - '/srv/docker/nginx/sites-enabled:/etc/nginx/sites-enabled'
-
+        - '/srv/docker/nginx/nginx-startup:/tmp/nginx-startup'
+      command: '/tmp/nginx-startup/start.sh'
 
