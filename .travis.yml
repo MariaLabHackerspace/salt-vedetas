@@ -7,7 +7,7 @@ python:
 before_install:
   - git submodule update --init --recursive
   - sudo apt-get update
-  - curl -L http://bootstrap.saltstack.org | sudo sh -s
+  - curl -L http://bootstrap.saltstack.org | sudo sh -s git v2016.05.11
 
 install:
   # Copy these states
