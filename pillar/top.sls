@@ -10,6 +10,3 @@ base:
     - fail2ban
 {%- endif %}
     - docker
-
-  'debian-jessie.vagrantup.com':
-    - nginx
