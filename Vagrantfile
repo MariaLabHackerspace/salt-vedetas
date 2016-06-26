@@ -9,7 +9,7 @@ Vagrant.configure(2) do |config|
   config.vm.define "local" do |local| 
     local.vm.box = "debian/jessie64"
     local.vm.network "private_network", type: "dhcp"
-    local.vm.network "forwarded_port", guest: 80, host: 8080
+    # local.vm.network "forwarded_port", guest: 80, host: 8080
     local.vm.provider "virtualbox" do |v|
       v.memory = 2048
     end
@@ -23,9 +23,9 @@ Vagrant.configure(2) do |config|
     local.vm.synced_folder "salt", "/srv/provision/salt"
 
     local.vm.provision :salt do |salt|
-      # salt.bootstrap_script = "../salt-bootstrap/bootstrap-salt.sh"
+      salt.bootstrap_script = "../salt-bootstrap/bootstrap-salt.sh"
       # salt.bootstrap_options = "-d"
-      # salt.install_type = "git"
+      # salt.install_type = "git develop"
       salt.masterless = true
       salt.minion_config = "salt/minion"
       salt.run_highstate = false

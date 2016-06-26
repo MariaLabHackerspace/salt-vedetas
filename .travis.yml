@@ -7,13 +7,14 @@ python:
 before_install:
   - git submodule update --init --recursive
   - sudo apt-get update
-  - curl -L http://bootstrap.saltstack.org | sudo sh -s git v2016.05.11
+  - git clone https://github.com/saltstack/salt-bootstrap.git && sudo sh salt-bootstrap/bootstrap-salt.sh
 
 install:
   # Copy these states
   - sudo mkdir -p /srv/provision
   - sudo cp -r salt pillar formulas /srv/provision
   - sudo cp .travis/travis_secret.sls /srv/provision/pillar/docker/secret.sls
+  - sudo mkdir -p /srv/docker/nginx/nginx-startup && sudo cp .travis/start.sh /srv/docker/nginx/nginx-startup
   - sudo cp salt/minion /etc/salt/minion
   - sudo pip install -U urllib3==1.14
   - sudo service salt-minion restart
